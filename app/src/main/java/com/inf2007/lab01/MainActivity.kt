@@ -38,9 +38,9 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     Lab01Theme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            var username by remember { mutableStateOf("") }
+            var name by remember { mutableStateOf("") }
+            var greetingName by remember { mutableStateOf("") }
             var showGreeting by remember { mutableStateOf(false) }
-
             Column(
                 modifier = Modifier
                     .padding(innerPadding)
@@ -55,8 +55,11 @@ fun MainScreen() {
 
                 Button(
                     onClick = {
-                        if (username.isNotBlank()) {
-                            showGreeting = false
+                        if (name.isNotBlank()) {
+                            greetingName = name // Update the greeting name
+                            showGreeting = true // Display the greeting
+                        } else {
+                            showGreeting = false // Hide the greeting if the input is blank
                         }
                     },
                     modifier = Modifier
@@ -67,8 +70,8 @@ fun MainScreen() {
                 }
 
                 if (showGreeting) {
-                    Greeeting(
-                        name = username,
+                    Greeting(
+                        name = greetingName,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp)
@@ -88,17 +91,17 @@ fun UserInput(name: String, onNameChange: (String) -> Unit, modifier: Modifier =
         label = { Text("Enter your Name") },
         modifier = modifier
             .fillMaxWidth()
-            .testTag("UserInput")
+            .testTag("nameInput")
     )
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $username!, Welcome to InF2007!",
-        modifier = Modifier
+        text = "Hello $name!, Welcome to INF2007!",
+        modifier = modifier
             .fillMaxWidth()
-            .testTag("greeting")
+            .testTag("greetingMsg")
     )
 }
 
